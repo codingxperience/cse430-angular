@@ -11,22 +11,11 @@
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-12">
-        <a 
-        href="#" 
-        class="list-group-item clearfix" 
-        *ngFor="let contact of contacts">
-          <div class="pull-left">
-            <h4 class="list-group-item-heading">{{ contact.name}}</h4>
-            <p class="list-group-item-text">{{ contact.phone}}</p>
-          </div>
-          <span class="pull-right">
-            <img 
-            [src]="contact.imageUrl" 
-            alt="{{ contact.name }}" 
-            class="img-responsive" 
-            style="max-height: 50px;">
-          </span>
-        </a>
+        <app-contact-item 
+          *ngFor="let contactElement of contacts"
+          [contact] = "contactElement"
+          (contactSelected)="onContactSelected(contactElement)">
+        </app-contact-item>
         <!-- <h2>contact-detail goes here</h2> -->
       </div>
     </div>
