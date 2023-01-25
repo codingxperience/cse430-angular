@@ -21,6 +21,10 @@ export class MessageListComponent {
       "I kindly request for re-do on test. Thanks",
       "Opio Mark"
     )
-  ];
+  ]
+
+  onAddMessage(message: Message) {
+    this.messages.push(message);
+  }
 
 }

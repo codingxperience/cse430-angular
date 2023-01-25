@@ -1,14 +1,16 @@
 <div class="panel panel-default">
-  <div class="panel-heading" style="height: 70px;">
+  <div class="panel-heading" style="height: 140px;">
     <h4 class="list-group-item-heading"> {{ contact.name }} </h4>
     <img
       [src]="contact.imageUrl"
       alt="{{ contact.name }}"
       class="img-responsive"
-      style="max-height: 50px;"
+      style="max-height: 90px;"
     />
-    <button type="button" class="btn btn-info pull-right">Edit</button>
-    <button type="button" class="btn btn-danger pull-right">Delete</button>
+    <div class="aside">
+      <button type="button" class="btn btn-info pull-right">Edit</button>
+      <button type="button" class="btn btn-danger pull-right">Delete</button>
+    </div>
   </div>
   <div class="panel-body">
     <p>Email: {{ contact.email }}</p>
