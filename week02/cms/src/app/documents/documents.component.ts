@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./documents.component.css']
 })
 export class DocumentsComponent {
-
+  selectedDocument: Document;
 }
