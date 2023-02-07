@@ -123,13 +123,14 @@ export const MOCKCONTACTS: Contact[] = [
   // teams
   // index 13
   {
-    id: '4', name: 'Network/OS team', email: ' ', phone: ' ', imageUrl: ' ', group: [
+    id: '4', 
+    name: 'Network/OS team', email: ' ', phone: ' ', imageUrl: ' ', group: [
     {
       id: '2',
       name: 'Bradley Armstrong',
       email: 'armstrongb@byui.edu',
       phone: '208-496-3766',
-      imageUrl: '../../assets/images/armstrongb.jpg',
+      imageUrl: '../../assets/images/armstrongb-team.jpg',
       group: null
     },
     {

@@ -20,7 +20,7 @@ export class ContactService {
   }
 
   //method to get a single specific contact
-  getContact(id: string) {
+  getContact(id: string): Contact {
     // //loop through all the contacts
     // this.contacts.forEach(contact => {
     //   //if ids match
@@ -31,7 +31,7 @@ export class ContactService {
     // //if no id is found...
     // return null;
 
-    for (const contact of this.contacts) {
+    for (let contact of this.contacts) {
       if (contact.id === id) {
         return contact;
       }
