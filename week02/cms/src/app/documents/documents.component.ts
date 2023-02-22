@@ -10,12 +10,8 @@ export class DocumentsComponent {
   //object for the selected document
   selectedDocument: Document;
 
-  // inject contact service
-  constructor(private documentService: DocumentService) {}
 
   ngOnInit(): void {
-    this.documentService.documentSelectedEvent.subscribe((document: Document) => {
-      this.selectedDocument = document;
-    })
+    
+    }
   }
-}

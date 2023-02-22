@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="pull-left"><h2 class="list-group-item-heading">Contact</h2></div>
-        <span class="pull-right"><button class="btn btn-success">New Contact</button></span>
+        <span class="pull-right"><button routerLink="new" class="btn btn-success">New Contact</button></span>
         <!-- <h2>contact-list goes here</h2> -->
       </div>
     </div>
@@ -14,7 +14,7 @@
         <app-contact-item 
           *ngFor="let contactElement of contacts"
           [contact] = "contactElement"
-          (contactSelected)="onContactSelected(contactElement)">
+        >
         </app-contact-item>
         <!-- <h2>contact-detail goes here</h2> -->
       </div>

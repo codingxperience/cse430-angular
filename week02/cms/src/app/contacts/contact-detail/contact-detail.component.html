@@ -8,8 +8,8 @@
       style="max-height: 90px;"
     />
     <div class="aside">
-      <button type="button" class="btn btn-info pull-right">Edit</button>
-      <button type="button" class="btn btn-danger pull-right">Delete</button>
+      <button type="button" class="btn btn-info pull-right" routerLink="edit" >Edit</button>
+      <button type="button" class="btn btn-danger pull-right" (click)="onDelete()">Delete</button>
     </div>
   </div>
   <div class="panel-body">

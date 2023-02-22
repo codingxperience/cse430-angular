@@ -123,14 +123,13 @@ export const MOCKCONTACTS: Contact[] = [
   // teams
   // index 13
   {
-    id: '4', 
-    name: 'Network/OS team', email: ' ', phone: ' ', imageUrl: ' ', group: [
+    id: '4', name: 'Network/OS team', email: ' ', phone: ' ', imageUrl: ' ', group: [
     {
       id: '2',
       name: 'Bradley Armstrong',
       email: 'armstrongb@byui.edu',
       phone: '208-496-3766',
-      imageUrl: '../../assets/images/armstrongb-team.jpg',
+      imageUrl: 'assets/images/armstrongb.jpg',
       group: null
     },
     {
@@ -138,7 +137,7 @@ export const MOCKCONTACTS: Contact[] = [
       name: 'Mark Olaveson',
       email: 'olavesonm@byui.edu',
       phone: '208-496-3773',
-      imageUrl: '../../assets/images/olavesonm.jpg',
+      imageUrl: 'assets/images/olavesonm.jpg',
       group: null
     },
     {
@@ -146,7 +145,7 @@ export const MOCKCONTACTS: Contact[] = [
       name: 'Steven Rigby',
       email: 'rigbys@byui.edu',
       phone: '208-496-3774',
-      imageUrl: '../../assets/images/rigbys.jpg',
+      imageUrl: 'assets/images/rigbys.jpg',
       group: null
     }
   ]
@@ -160,7 +159,7 @@ export const MOCKCONTACTS: Contact[] = [
       name: 'Rex Barzee',
       email: 'barzeer@byui.edu',
       phone: '208-496-3768',
-      imageUrl: '../../assets/images/barzeer.jpg',
+      imageUrl: 'src/app/assets/images/barzeer.jpg',
       group: null
     },
     {
@@ -168,7 +167,7 @@ export const MOCKCONTACTS: Contact[] = [
       name: 'Lee Barney',
       email: 'barneyl@byui.edu',
       phone: '208-496-3767',
-      imageUrl: '../../assets/images/barneyl.jpg',
+      imageUrl: 'src/app/assets/images/barneyl.jpg',
       group: null
     },
     {
@@ -176,7 +175,7 @@ export const MOCKCONTACTS: Contact[] = [
       name: 'R. Kent Jackson',
       email: 'jacksonk@byui.edu',
       phone: '208-496-3771',
-      imageUrl: '../../assets/images/jacksonk.jpg',
+      imageUrl: 'src/app/assets/images/jacksonk.jpg',
       group: null
     },
     {
@@ -184,7 +183,7 @@ export const MOCKCONTACTS: Contact[] = [
       name: 'Mark Olaveson',
       email: 'olavesonm@byui.edu',
       phone: '208-496-3773',
-      imageUrl: '../../assets/images/olavesonm.jpg',
+      imageUrl: 'src/app/assets/images/olavesonm.jpg',
       group: null
     }
   ]

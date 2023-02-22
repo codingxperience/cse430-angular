@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Document } from "../document.model";
 import { DocumentService } from "../document.service";
 
@@ -7,20 +8,29 @@ import { DocumentService } from "../document.service";
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css']
 })
-export class DocumentListComponent implements OnInit {
+export class DocumentListComponent implements OnInit, OnDestroy {
 
-  //list of contacts
-  documents: Document[] = [];
+  
+  //array/list of dummy documents
+  documents: Document[];
+
+  private subscription: Subscription;
 
   //inject contact service
   constructor(private documentService: DocumentService) {}
   
   ngOnInit(): void {
     this.documents = this.documentService.getDocuments();
+    this.subscription = this.documentService.documentChangedEvent
+    .subscribe(
+      (documents: Document[]) => {
+        this.documents = documents;
+      }
+    )
   }
 
-
-  onSelectedDocument(document: Document) {
-    this.documentService.documentSelectedEvent.emit(document);
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
+
 }

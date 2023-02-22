@@ -1,29 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Message } from '../message.model';
+import { MessageService } from "../message.service";
 
 @Component({
   selector: 'app-message-list',
   templateUrl: './message-list.component.html',
   styleUrls: ['./message-list.component.css']
 })
-export class MessageListComponent {
+export class MessageListComponent implements OnInit {
+  //list of contacts
+  messages: Message[] = [];
 
-  messages: Message[] = [
-    new Message(
-      "1",
-      "Missed Assignment",
-      "I kindly request for pardon. I had a family emergency",
-      "Fred Okorio"
-    ),
-    new Message(
-      "2",
-      "Request For Resubmission",
-      "I kindly request for re-do on test. Thanks",
-      "Opio Mark"
-    )
-  ]
+  //inject contact service
+  constructor(private messageService: MessageService) {}
 
+  
+  ngOnInit(): void {
+    this.messages = this.messageService.getMessages();
+    this.messageService.messageChangeEvent.subscribe((messages: Message[]) => {
+      this.messages = messages;
+    });
+  }
+
+   //method to emit event
   onAddMessage(message: Message) {
+    //push message to array of messages
     this.messages.push(message);
   }
 
