@@ -1,36 +1,74 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Subject, throwError } from 'rxjs';
+import { catchError, tap } from "rxjs/operators";
 import { Contact } from './contact.model';
 import { MOCKCONTACTS } from "./MOCKCONTACTS";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
 
-  contacts: Contact[];
+  contacts: Contact[] = [];
 
       //property to hold max id
       maxContactId: number;
 
-  // //event emiter for changes in the document
-  // contactChangedEvent = new EventEmitter<Contact[]>();
+  // contactSelectedEvent = new EventEmitter<Contact>()
 
   //event emiter for changes in the document
-  contactChangedEvent = new Subject<Contact[]>();
+  contactChangedEvent = new EventEmitter<Contact[]>();
+
+  //event emiter for changes in the document
+  contactListChangedEvent = new Subject<Contact[]>();
 
 
-  constructor() {
-    // init contact to be the ones coming from mockcontacts
-    this.contacts = MOCKCONTACTS;
+  constructor( private http: HttpClient ) {
+    // // init contact to be the ones coming from mockcontacts
+    // this.contacts = MOCKCONTACTS;
+
+    this.getContacts();
+    //get the max id at init time
+    this.maxContactId = this.getMaxId();
   }
 
-  //method to get all contaccts
-  getContacts(): Contact[] {
-    //return a copy of the array of contacts
-    // console.log(this.contacts)
-    return this.contacts.slice();
+  // //method to get all contaccts
+  // getContacts(): Contact[] {
+  //   //return a copy of the array of contacts
+  //   // console.log(this.contacts)
+  //   // return this.contacts.slice();
+  //   return Array.from(this.contacts);
+  // }
+   //method to get all documents
+   getContacts(): void {
+    // make a HTTP GET request to the Firebase Realtime Database to get the documents
+    this.http.get<Contact[]>('https://cms-project-e4718-default-rtdb.firebaseio.com/contacts.json')
+      // chain operators to transform the emitted data
+      .pipe(
+        // tap() operator allows us to perform side-effects without modifying the data
+        tap(contacts => {
+          // assign the array of documents received to the documents class attribute
+          this.contacts = contacts;
+          // get the maximum value used for the id property in the documents list
+          this.maxContactId = this.getMaxId();
+          // sort the list of documents by name in descending order
+          this.contacts.sort((a, b) => a.name.localeCompare(b.name));
+          // signal that the list of documents has changed
+          this.contactListChangedEvent.next(this.contacts.slice());
+        }),
+        // catchError() operator allows us to handle errors and optionally return a new observable
+        catchError(error => {
+          // log the error to the console
+          console.error(error);
+          // re-throw the error to propagate it to the caller
+          return throwError(error);
+        })
+      )
+      // subscribe to the observable returned by the pipe() method
+      .subscribe();
   }
+
 
   //method to get a single specific contact
   getContact(id: string): Contact {
@@ -44,15 +82,24 @@ export class ContactService {
     // //if no id is found...
     // return null;
 
-    for (let contact of this.contacts) {
-      if (contact.id == id) {
-        return contact;
-      }
-    }
-    return null;
+    // for (let contact of this.contacts) {
+    //   if (contact.id === id) {
+    //     return contact;
+    //   }
+    // }
+    // return null;
+    // for (let i = 0; i < this.contacts.length; i++) {
+    //   if (this.contacts[i].id === id) {
+    //     return this.contacts[i];
+    //   }
+    // }
+    // return null;
+    // console.log(this.contacts);
+    return this.contacts.find(contact => contact.id === id) ?? null;
+
   }
 
-  
+
   //method to get max id number in contact list
   getMaxId(): number {
     //variable to hold max Id
@@ -85,9 +132,8 @@ export class ContactService {
     newContact.id = this.maxContactId.toString();
     //push unto list
     this.contacts.push(newContact);
-    //create copy of list and emit/signal a change passing the copy
-    const contactListClone = this.contacts.slice();
-    this.contactChangedEvent.next(contactListClone);
+    //store/modify contacts on firebase database
+    this.storeContacts();
   }
 
   //method to update/replace an existing contact
@@ -109,11 +155,9 @@ export class ContactService {
     //set the id of new contact to be tht of the original
     newContact.id = originalContact.id;
     //set the contact in the list to be the new contact
-    document[pos] = newContact;
-    //create copy
-    const contactListClone = this.contacts.slice();
-    //emit/signal a change passing the copy
-    this.contactChangedEvent.next(contactListClone);
+    this.contacts[pos] = newContact;
+    //store/modify contacts on firebase database
+    this.storeContacts();
   }
 
   //method to delete a contact
@@ -125,13 +169,34 @@ export class ContactService {
     //get position of document on list
     const pos = this.contacts.indexOf(contact);
 
-    //if there is no document (index less than 0), exit. 
+    //if there is no document (index less than 0), exit.
     if (pos < 0) {
       return;
     }
     //removed document at specified position
     this.contacts.splice(pos, 1);
-    //emit event to signal that a change has been made, and pass it a new copy of the document list
-    this.contactChangedEvent.next(this.contacts.slice());
+    //store/modify contacts on firebase database
+    this.storeContacts();
+  }
+
+  //method to store contacts in database with put request
+  storeContacts() {
+    //stringify the list of documnts
+    let contacts = JSON.stringify(this.contacts);
+
+    //create header for content type
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    //put method with url, contacts object to replace, and headers
+    this.http.put('https://cms-project-e4718-default-rtdb.firebaseio.com/contacts.json', contacts, { headers: headers })
+      //subscribe to response
+      .subscribe(
+        () => {
+          //once a response has been received, signal that the document list has changed, send copy of list
+          this.contactListChangedEvent.next(this.contacts.slice());
+        }
+      )
   }
 }

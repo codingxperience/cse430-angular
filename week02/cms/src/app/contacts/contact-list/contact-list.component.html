@@ -1,29 +1,41 @@
-<div class="panel panel-default">
+<div class="panel panel-default contacts">
   <div class="panel-heading">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="pull-left"><h2 class="list-group-item-heading">Contact</h2></div>
-        <span class="pull-right"><button routerLink="new" class="btn btn-success">New Contact</button></span>
-        <!-- <h2>contact-list goes here</h2> -->
+    <div class="row pad-left-right">
+      <div class="col-sm-8">
+        <h1 class="pull-left title" style="margin-top: 0">Contacts</h1>
+      </div>
+      <div class="row">
+        <div class="input-group pull-left pad-left-right col-xs-7">
+          <input
+            class="form-control"
+            name="searchBox"
+            placeholder="Enter a search value"
+            (keyup)="search(searchBox.value)"
+            #searchBox
+          />
+          <div
+            class="glyphicon glyphicon-search input-group-addon"
+            (click)="search(searchBox.value)"
+          ></div>
+        </div>
+        <div class="pull-right pad-left-right">
+          <a class="btn btn-success" [routerLink]="['new']">New Contact</a>
+        </div>
       </div>
     </div>
   </div>
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-12">
-        <app-contact-item 
-          *ngFor="let contactElement of contacts"
-          [contact] = "contactElement"
-        >
-        </app-contact-item>
-        <!-- <h2>contact-detail goes here</h2> -->
+        <app-contact-item
+          *ngFor="let contactElement of contacts | contactsFilter : searchterm"
+          [contact]="contactElement"
+          dnd-draggable
+          [dragEnabled]="true"
+          [dragData]="contactElement"
+          [dropZones]="['contactGroup']"
+        ></app-contact-item>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-  
-

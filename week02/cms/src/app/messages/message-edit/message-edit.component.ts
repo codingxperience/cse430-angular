@@ -5,7 +5,7 @@ import { MessageService } from '../message.service';
 @Component({
   selector: 'app-message-edit',
   templateUrl: './message-edit.component.html',
-  styleUrls: ['./message-edit.component.css']
+  // styleUrls: ['./message-edit.component.css']
 })
 export class MessageEditComponent {
   // reference to the DOM

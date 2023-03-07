@@ -6,11 +6,14 @@ import { ContactService } from "../contact.service";
 @Component({
   selector: 'app-contact-list',
   templateUrl: './contact-list.component.html',
-  styleUrls: ['./contact-list.component.css']
+  styleUrls: ['./contact-list.component.scss']
 })
 export class ContactListComponent implements OnInit, OnDestroy {
    //list of contacts
   contacts: Contact[] = [];
+
+    //property for search term
+    searchterm: string;
 
   private subscription: Subscription;
   // //event emitter
@@ -19,18 +22,25 @@ export class ContactListComponent implements OnInit, OnDestroy {
   //inject contact service
   constructor(private contactService: ContactService) {}
 
-  
+
   ngOnInit(): void {
-    this.contacts = this.contactService.getContacts();
-    this.subscription = this.contactService.contactChangedEvent.subscribe(
+    this.contactService.getContacts();
+    this.subscription = this.contactService.contactListChangedEvent.subscribe(
       (contacts: Contact[]) => {
         this.contacts = contacts;
+        // console.log(this.contacts)
       }
     )
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  search(value: string) {
+
+    this.searchterm = value;
+
   }
 
 }

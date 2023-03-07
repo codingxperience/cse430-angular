@@ -7,7 +7,7 @@ import { ContactEditComponent } from "./contacts/contact-edit/contact-edit.compo
 import { ContactDetailComponent } from "./contacts/contact-detail/contact-detail.component";
 import { DocumentEditComponent } from "./documents/document-edit/document-edit.component";
 import { DocumentDetailComponent } from "./documents/document-detail/document-detail.component";
-import { isDevMode } from "@angular/core";
+// import { isDevMode } from "@angular/core";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/documents', pathMatch: 'full'  },
@@ -28,7 +28,7 @@ const appRoutes: Routes = [
 
 ];
 @NgModule ({
-  imports: [RouterModule.forRoot(appRoutes, {enableTracing: isDevMode()})],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
